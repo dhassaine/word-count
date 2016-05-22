@@ -20,6 +20,5 @@ To run one of the files, simply type `node <name of the file>`, for example:
 node 1.imperative.js
 ```
 
-To test 10.es6 module type `npm test`
-To run it type `npm run 10.es6`
+To test extra es6 style modules type `npm test`
 
