@@ -1,0 +1,1 @@
+cat words.txt | sed 's|[[:space:][:punct:]]| |g' | tr ' ' '\n' | sed '/^$/d' | tr '[:upper:]' '[:lower:]' | sort | uniq -c | sed -e "s/^[ ]*//g" | sort -k1 -n -r | head -10 | awk 'BEGIN{print "The top 10 most frequently used:\n--------------------------------"}{print NR ". " $2 ": " $1}'
