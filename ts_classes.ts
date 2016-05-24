@@ -20,13 +20,12 @@ class WordScore {
 export class Tally {
     private tally: Map<string, WordScore> = new Map<string, WordScore>();
     
-
-    getWordScore(word) {
+    getWordScore(word) : WordScore {
         const w = word.toLowerCase();        
         return this.tally.has(w) ? this.tally.get(w) : new WordScore(w);
     }
 
-    addToTally(words) {
+    addToTally(words) : Tally {
         words.forEach((word) => {
             const wordScore = this.getWordScore(word).increment();
             this.tally.set(wordScore.word, wordScore);
@@ -34,21 +33,21 @@ export class Tally {
         return this;
     }
 
-    getTop(n) {
+    getTop(n) : WordScore[] {
         const sortedWordScores = Array.from(this.tally.values())
             .sort((a, b) => b.score - a.score);
         return sortedWordScores.slice(0, Math.min(n, sortedWordScores.length));
     }
 }
 
-function printTop(topWords) {
+function printTop(topWords) : string {
     return [`The top ${topWords.length} most frequently used:`,
         '--------------------------------']
         .concat(topWords.map((wordScore, index) => `${index + 1}. ${wordScore.word}: ${wordScore.score}`))
         .join("\n");
 }
 
-export default function main(content) {
+export default function main(content) : string {
     const top10 = new Tally()
         .addToTally(splitIntoWords(content))
         .getTop(10);
