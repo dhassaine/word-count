@@ -1,3 +1,4 @@
+"use strict";
 class WordScore {
     constructor(word) {
         this.word = word;
@@ -42,9 +43,7 @@ function printTop(topWords) {
         .join("\n");
 }
 
-export default function main(textFile) {
-    const fs = require('fs');
-    const content = fs.readFileSync(textFile).toString();
+export default function main(content) {
     const top10 = new Tally()
         .addToTally(splitIntoWords(content))
         .getTop(10);

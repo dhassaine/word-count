@@ -1,14 +1,14 @@
 "use strict"
 
-export function tallyUp(words) {
-    return Array.from(
-        words.map((word) => (word.toLowerCase()))
-            .reduce((tally, word) => tally.set(word, (tally.get(word) || 0) + 1), new Map())
-            .entries());
+export function tallyUp(words, tally = new Map()) {
+    return words.reduce((tally, word) =>
+        tally.set(word, (tally.get(word) || 0) + 1), tally)
 }
 
 export function getTop(tally, n) {
-    return tally.sort((a, b) => b[1] - a[1]).slice(0, n);
+    return Array.from(tally.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, n);
 }
 
 function printTop(topWords) {
@@ -22,11 +22,11 @@ function splitIntoWords(text) {
     return text.split(/[\W]+/);
 }
 
-export default function main(textFile) {
-    const fs = require('fs');
-    const content = fs.readFileSync(textFile).toString();
+export default function main(content) {
     const words = splitIntoWords(content);
-    const top10 = getTop(tallyUp(words),10)
+    const lowerCasedWords = words.map((word) => (word.toLowerCase()));
+    const tally = tallyUp(lowerCasedWords);
+    const top10 = getTop(tally, 10)
     return printTop(top10);
 }
 
